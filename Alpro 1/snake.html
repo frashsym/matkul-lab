@@ -1,0 +1,353 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Snake SISDIG - 5x5 Revisi (JS + Canvas)</title>
+  <style>
+    /* layout full layar */
+    html,body { height:100%; margin:0; background:#071025; color:#e6eef8; font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto; }
+    #app { height:100%; display:flex; align-items:center; justify-content:center; position:relative; }
+    canvas { display:block; background:#000; image-rendering:pixelated; box-shadow:0 6px 20px rgba(0,0,0,0.6); border-radius:8px; }
+
+    /* HUD kanan atas */
+    .hud { position:fixed; top:14px; right:14px; background:rgba(8,12,20,0.8); padding:12px; border-radius:10px; min-width:200px; box-shadow:0 6px 18px rgba(0,0,0,0.5); }
+    .hud .title { font-weight:800; font-size:14px; margin-bottom:6px; }
+    .hud div { margin:6px 0; font-size:13px; }
+    .hud .row { display:flex; gap:8px; align-items:center; }
+    .hud button { padding:8px 10px; border-radius:8px; border:none; cursor:pointer; font-weight:700; }
+    .btn-restart { background:#2b6; color:#012; }
+    .btn-reset { background:#f55; color:#fff; }
+
+    /* kontrol kanan bawah (tidak menabrak layout game) */
+    .controls { position:fixed; right:18px; bottom:18px; display:grid; gap:8px; grid-template-columns:56px 56px; grid-template-rows:56px 56px 56px; align-items:center; justify-items:center; }
+    .arrow { width:56px; height:56px; display:flex; align-items:center; justify-content:center; background:rgba(255,255,255,0.04); border-radius:10px; border:1px solid rgba(255,255,255,0.05); color:#fff; font-size:20px; user-select:none; cursor:pointer; }
+    .arrow:active { transform:scale(0.98); background:rgba(255,255,255,0.08); }
+
+    /* Overlay pesan terpusat (stackable) */
+    .overlay-wrap { position:fixed; left:50%; top:50%; transform:translate(-50%,-50%); pointer-events:none; width:100%; max-width:640px; display:flex; flex-direction:column; align-items:center; gap:10px; }
+    .overlay { pointer-events:auto; min-width:260px; background:rgba(0,0,0,0.6); padding:12px 18px; border-radius:10px; text-align:center; color:#fff; box-shadow:0 10px 30px rgba(0,0,0,0.6); }
+    .overlay.huge { font-size:28px; font-weight:900; color:#ff6b6b; }
+    .overlay.small { font-size:14px; }
+    .overlay.success { color:#ffd166; }
+
+    .note { font-size:12px; opacity:0.9; margin-top:6px; }
+
+    @media (max-width:560px){ .hud{ right:8px; left:8px; } .controls{ right:8px; bottom:8px; } }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <canvas id="game" aria-label="Playfield Snake 5x5"></canvas>
+
+    <div class="hud" role="region" aria-label="Informasi game">
+      <div class="title">Snake SISDIG — Grid 5×5 (Revisi)</div>
+      <div id="desc">Kontrol: Arrow keys / WASD atau tombol kanan bawah</div>
+      <div class="row"><div id="score">Score: 0</div><div style="flex:1"></div><div id="length">Length: 2</div></div>
+      <div id="state">State: RUNNING</div>
+      <div class="row">
+        <button id="restart" class="btn-restart">Restart</button>
+        <button id="resetScore" class="btn-reset">Reset Highscore</button>
+      </div>
+      <div class="note">Tembok: wrap-around (bisa menembus & memutar map). Ekor berwarna berbeda agar mudah dikenali.</div>
+    </div>
+
+    <!-- overlay messages, dibuat terpisah supaya tidak saling menabrak: stack vertical -->
+    <div class="overlay-wrap" aria-hidden="true">
+      <div id="overlayGameOver" class="overlay huge" style="display:none">GAME OVER</div>
+      <div id="overlayRestart" class="overlay small" style="display:none">Tekan Restart</div>
+      <div id="overlayHighscore" class="overlay success" style="display:none">New Highscore!</div>
+    </div>
+
+    <!-- kontrol kanan bawah (2x3 grid) -->
+    <div class="controls" aria-hidden="false">
+      <div></div>
+      <div id="btn-up" class="arrow">↑</div>
+
+      <div id="btn-left" class="arrow">←</div>
+      <div id="btn-down" class="arrow">↓</div>
+      <div id="btn-right" class="arrow">→</div>
+
+      <div></div>
+    </div>
+  </div>
+
+<script>
+/*
+  Snake SISDIG - Revisi
+  - Grid 5x5
+  - Full layar canvas
+  - Menggunakan "gerbang logika" (ditunjukkan lewat helper AND/OR/NOT dsb)
+  - Wrap-around (tembok bukan solid)
+  - Tombol keyboard + on-screen arrows (kanan bawah)
+  - Score realtime + highscore (localStorage)
+  - Ekor ular memiliki warna berbeda
+  - Overlay pesan disusun agar tidak saling menabrak
+
+  Semua komentar menjelaskan mapping ke gerbang logika dalam bahasa Indonesia.
+*/
+
+/* ---------- KONFIG ---------- */
+const GRID = 5; // ukuran grid 5x5
+const canvas = document.getElementById('game');
+const ctx = canvas.getContext('2d');
+const scoreEl = document.getElementById('score');
+const lengthEl = document.getElementById('length');
+const stateEl = document.getElementById('state');
+const restartBtn = document.getElementById('restart');
+const resetScoreBtn = document.getElementById('resetScore');
+
+const overlayGameOver = document.getElementById('overlayGameOver');
+const overlayRestart = document.getElementById('overlayRestart');
+const overlayHighscore = document.getElementById('overlayHighscore');
+
+let TICK_MS = 380; // clock interval ms
+let clockInterval = null;
+
+/* ---------- LOGIC GATES (helpers) ---------- */
+// Kita definisikan helper yang memetakan operasi boolean ke nama gerbang
+function AND(a,b){ return a && b; } // AND gate
+function OR(a,b){ return a || b; }   // OR gate
+function NOT(a){ return !a; }        // NOT gate
+function XOR(a,b){ return Boolean(a) !== Boolean(b); } // XOR gate
+function NOR(a,b){ return !(a||b); } // NOR gate (kombinasi)
+
+/* ---------- DIRECTION (register 2-bit) ---------- */
+const DIR = { UP:0, RIGHT:1, DOWN:2, LEFT:3 };
+let direction = DIR.RIGHT; // register arah saat ini
+
+/* fungsi pembantu: cek apakah dua arah saling berlawanan
+   Implementasi dengan gerbang logika: (a==UP AND b==DOWN) OR ... */
+function isOpposite(a,b){
+  return OR(
+    AND(a===DIR.UP, b===DIR.DOWN),
+    OR(
+      AND(a===DIR.DOWN, b===DIR.UP),
+      OR(
+        AND(a===DIR.LEFT, b===DIR.RIGHT),
+        AND(a===DIR.RIGHT, b===DIR.LEFT)
+      )
+    )
+  );
+}
+
+/* ---------- GAME STATE (registers / memori) ---------- */
+let snake = [];
+let food = {x:2,y:2};
+let score = 0;
+let highscore = Number(localStorage.getItem('sisdig_highscore') || 0);
+let gameOver = false;
+
+/* ---------- RESIZE CANVAS (full layar) ---------- */
+function resizeCanvasToFullScreen(){
+  const padding = 40; // agar hud dan kontrol tidak menimpa canvas
+  const size = Math.min(window.innerWidth - padding*2, window.innerHeight - padding*2);
+  canvas.width = size; canvas.height = size;
+  draw();
+}
+window.addEventListener('resize', resizeCanvasToFullScreen);
+
+/* ---------- INISIALISASI / RESTART ---------- */
+function init(){
+  // set awal: 2 segmen
+  snake = [{x:2,y:2},{x:1,y:2}];
+  direction = DIR.RIGHT;
+  placeFood();
+  score = 0;
+  gameOver = false;
+  updateUI();
+  resizeCanvasToFullScreen();
+  hideAllOverlays();
+  // start clock generator (register clock)
+  if (clockInterval) clearInterval(clockInterval);
+  clockInterval = setInterval(moveTick, TICK_MS);
+}
+
+/* ---------- FOOD PLACER (menghindari overlap) ---------- */
+function placeFood(){
+  // generator sederhana: pilih random sampai tidak overlap
+  let tries = 0;
+  while(true){
+    const fx = Math.floor(Math.random()*GRID);
+    const fy = Math.floor(Math.random()*GRID);
+    // overlap = OR over segments of (fx==seg.x AND fy==seg.y)
+    let overlap = false;
+    for(const seg of snake){
+      if (AND(fx===seg.x, fy===seg.y)) { overlap = true; break; }
+    }
+    if (NOT(overlap)) { food = {x:fx,y:fy}; return; }
+    if (++tries > 80){ // fallback
+      food = {x:(fx+1)%GRID, y:(fy+1)%GRID}; return;
+    }
+  }
+}
+
+/* ---------- MOVING TICK ---------- */
+function moveTick(){
+  const moveEnable = NOT(gameOver); // NOT gate
+  if (NOT(moveEnable)) return; // jika gameOver clock disabled
+
+  const head = snake[0];
+  let newHead = {x: head.x, y: head.y};
+
+  if (direction === DIR.RIGHT) newHead.x = head.x + 1;
+  else if (direction === DIR.LEFT) newHead.x = head.x - 1;
+  else if (direction === DIR.UP) newHead.y = head.y - 1;
+  else if (direction === DIR.DOWN) newHead.y = head.y + 1;
+
+  /* ---------- TEMBOK : WRAP-AROUND (bukan solid)
+     implementasi: jika keluar range, kembali pake modulo
+     Ini merepresentasikan operasi aritmetika (adder + modulo)
+  */
+  newHead.x = ((newHead.x % GRID) + GRID) % GRID; // safe modulo
+  newHead.y = ((newHead.y % GRID) + GRID) % GRID;
+
+  /* ---------- EAT detection: (newHead.x==food.x) AND (newHead.y==food.y) */
+  const eat = AND(newHead.x === food.x, newHead.y === food.y);
+
+  /* ---------- SELF COLLISION ----------
+     Jika akanGrow (eat) -> cek seluruh tubuh
+     Jika tidak eat -> tail akan digeser sehingga posisi tail aman
+     SelfCollision = OR_over_segments( newHead.x===seg.x AND newHead.y===seg.y )
+  */
+  const willGrow = Boolean(eat);
+  let bodyToCheck = willGrow ? snake.slice() : snake.slice(0, snake.length - 1);
+  let selfCollision = false;
+  for(const seg of bodyToCheck){
+    if (AND(newHead.x === seg.x, newHead.y === seg.y)) { selfCollision = true; break; }
+  }
+
+  /* ---------- GAMEOVER LOGIKA: Wall OR SelfCollision
+     (wall sudah di-handle jadi hanya selfCollision matters karena wrap)
+  */
+  gameOver = selfCollision; // OR gate previously with wall, but wall=false here
+
+  if (gameOver){
+    // berhenti sejenak
+    clearInterval(clockInterval);
+    clockInterval = null;
+    // cek highscore
+    const isNewHigh = score > highscore;
+    if (isNewHigh){
+      highscore = score;
+      localStorage.setItem('sisdig_highscore', String(highscore));
+    }
+    showOverlays(gameOver, isNewHigh);
+    updateUI();
+    draw();
+    return;
+  }
+
+  // update snake (register shift): push head, pop tail jika tidak grow
+  snake.unshift(newHead);
+  if (!willGrow) snake.pop();
+  else {
+    // growth: increment score and place new food
+    score += 1; // adder
+    placeFood();
+  }
+
+  updateUI();
+  draw();
+}
+
+/* ---------- INPUT HANDLING ---------- */
+function handleRequestDirection(requestedDir){
+  if (requestedDir === null) return;
+  const opposite = isOpposite(requestedDir, direction);
+  const valid = NOT(opposite); // NOT gate
+  if (valid) direction = requestedDir; // update register arah
+}
+
+window.addEventListener('keydown', (e)=>{
+  const k = e.key;
+  if (k==='ArrowUp' || k==='w' || k==='W') handleRequestDirection(DIR.UP);
+  if (k==='ArrowRight' || k==='d' || k==='D') handleRequestDirection(DIR.RIGHT);
+  if (k==='ArrowDown' || k==='s' || k==='S') handleRequestDirection(DIR.DOWN);
+  if (k==='ArrowLeft' || k==='a' || k==='A') handleRequestDirection(DIR.LEFT);
+});
+
+// on-screen buttons (kanan bawah)
+document.getElementById('btn-up').addEventListener('click', ()=> handleRequestDirection(DIR.UP));
+document.getElementById('btn-right').addEventListener('click', ()=> handleRequestDirection(DIR.RIGHT));
+document.getElementById('btn-down').addEventListener('click', ()=> handleRequestDirection(DIR.DOWN));
+document.getElementById('btn-left').addEventListener('click', ()=> handleRequestDirection(DIR.LEFT));
+
+restartBtn.addEventListener('click', ()=> init());
+resetScoreBtn.addEventListener('click', ()=>{
+  localStorage.removeItem('sisdig_highscore'); highscore = 0; updateUI();
+});
+
+/* ---------- DRAW (LED matrix style) ---------- */
+function draw(){
+  const size = Math.min(canvas.width, canvas.height);
+  const cell = Math.floor(size / GRID);
+  const totalGridPx = cell * GRID;
+  const offsetX = Math.floor((canvas.width - totalGridPx) / 2);
+  const offsetY = Math.floor((canvas.height - totalGridPx) / 2);
+
+  // clear
+  ctx.clearRect(0,0,canvas.width,canvas.height);
+  // background
+  ctx.fillStyle = '#000'; ctx.fillRect(0,0,canvas.width,canvas.height);
+
+  // draw cell background
+  for(let y=0;y<GRID;y++){
+    for(let x=0;x<GRID;x++){
+      ctx.fillStyle = '#061019';
+      ctx.fillRect(offsetX + x*cell, offsetY + y*cell, cell-2, cell-2);
+    }
+  }
+
+  // draw food (LED)
+  ctx.fillStyle = '#ff4757';
+  ctx.fillRect(offsetX + food.x*cell, offsetY + food.y*cell, cell-2, cell-2);
+
+  // draw snake segments: head, body, tail with warna berbeda
+  for(let i=0;i<snake.length;i++){
+    const seg = snake[i];
+    if (i===0){ // head
+      ctx.fillStyle = '#7CFC00';
+    } else if (i === snake.length - 1){ // tail - beri pembeda warna
+      ctx.fillStyle = '#FFB86B'; // warna ekor berbeda
+    } else {
+      ctx.fillStyle = '#2E8B57';
+    }
+    ctx.fillRect(offsetX + seg.x*cell, offsetY + seg.y*cell, cell-2, cell-2);
+  }
+}
+
+/* ---------- UI Update ---------- */
+function updateUI(){
+  scoreEl.textContent = `Score: ${score}`;
+  lengthEl.textContent = `Length: ${snake.length}`;
+  stateEl.textContent = gameOver ? 'State: GAME OVER' : 'State: RUNNING';
+  // tunjukkan highscore di bawah score (real-time)
+  // kita tambahkan ke dalam HUD element score
+  scoreEl.textContent = `Score: ${score}  ·  Highscore: ${highscore}`;
+}
+
+/* ---------- Overlay handling (agar tidak tabrakan) ---------- */
+function hideAllOverlays(){
+  overlayGameOver.style.display = 'none';
+  overlayRestart.style.display = 'none';
+  overlayHighscore.style.display = 'none';
+}
+
+function showOverlays(isGameOver, isNewHigh){
+  // kita tampilkan overlay dalam urutan: GAME OVER (besar), New Highscore (jika ada), Tekan Restart
+  hideAllOverlays();
+  if (isGameOver) overlayGameOver.style.display = 'block';
+  if (isNewHigh){
+    // tunda sedikit supaya tidak saling menabrak visual
+    setTimeout(()=> overlayHighscore.style.display = 'block', 120);
+  }
+  // overlay restart muncul selalu tapi sedikit delay agar stack rapi
+  setTimeout(()=> overlayRestart.style.display = 'block', 220);
+}
+
+/* ---------- start ---------- */
+init();
+</script>
+</body>
+</html>

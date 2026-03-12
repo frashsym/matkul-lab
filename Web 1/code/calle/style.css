@@ -1,0 +1,165 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial;
+}
+
+body {
+  background: white;
+}
+
+/* NAVBAR */
+
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  padding: 20px 60px;
+
+  border-bottom: 1px solid #eee;
+
+  background: white;
+
+  position: fixed;
+  width: 100%;
+  top: 0;
+  z-index: 1000;
+}
+
+.logo {
+  font-size: 28px;
+  font-weight: 900;
+  letter-spacing: 2px;
+}
+
+.menu {
+  display: flex;
+  gap: 40px;
+}
+
+.menu a {
+  text-decoration: none;
+  color: black;
+  font-size: 14px;
+}
+
+/* RIGHT MENU */
+
+.right-menu {
+  display: flex;
+  gap: 25px;
+  align-items: center;
+}
+
+.nav-item {
+  position: relative;
+  cursor: pointer;
+}
+
+/* DROPDOWN CARD */
+
+.dropdown {
+  display: none;
+
+  position: absolute;
+
+  top: 35px;
+
+  right: 0;
+
+  background: white;
+
+  border: 1px solid #ddd;
+
+  padding: 15px;
+
+  width: 180px;
+
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.dropdown p {
+  margin-bottom: 8px;
+  cursor: pointer;
+}
+
+/* HERO */
+
+.hero {
+  margin-top: 80px;
+
+  height: 85vh;
+
+  background-image: url("https://d2kchovjbwl1tk.cloudfront.net/vendors/9549/assets/image/1769364973158-NAN00069_resized2048-JPEG.webp");
+
+  background-size: cover;
+
+  background-position: center;
+
+  display: flex;
+
+  justify-content: center;
+
+  align-items: center;
+}
+
+.shop-btn {
+  border: 2px solid white;
+
+  color: white;
+
+  padding: 12px 30px;
+
+  background: transparent;
+
+  cursor: pointer;
+}
+
+/* FOOTER */
+
+.footer {
+  background: #111;
+
+  color: white;
+
+  padding: 50px;
+
+  text-align: center;
+}
+
+.logos {
+  display: flex;
+
+  justify-content: center;
+
+  gap: 20px;
+
+  flex-wrap: wrap;
+
+  margin-top: 10px;
+}
+
+.payment {
+  margin-bottom: 40px;
+}
+
+/* MENU NAVBAR */
+
+.menu a{
+  text-decoration: none;
+  color: black;
+  font-weight: 500;
+  padding: 8px 14px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+}
+
+/* HOVER EFFECT */
+
+.menu a:hover{
+  background-color: #f2f2f2;
+  font-weight: bold;
+}
+

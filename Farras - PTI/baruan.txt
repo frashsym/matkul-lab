@@ -1,0 +1,117 @@
+No. 1
+#include <iostream>
+#include <string>
+#include <iomanip>
+
+using namespace std;
+
+// Fungsi untuk Menghitung Gaji Karyawan
+void menghitungGajiKaryawan() {
+    string NIK, NamaKaryawan, AlamatKaryawan;
+    int Golongan;
+    double TotalJamKerja, UangHarian, UangLembur, TotalLembur = 0, UangTransport, Gapok, GajiTotal, Pajak, GajiBersih;
+
+    cout << "\n--- Input Data Gaji Karyawan ---" << endl;
+    cout << "NIK: "; cin >> NIK;
+    cout << "Nama Karyawan: "; cin.ignore(); getline(cin, NamaKaryawan);
+    cout << "Alamat: "; getline(cin, AlamatKaryawan);
+    cout << "Golongan (1/2/3): "; cin >> Golongan;
+    cout << "Total Jam Kerja: "; cin >> TotalJamKerja;
+
+    // Ketentuan UangHarian, UangLembur, dan Gapok
+    if (Golongan == 1) {
+        UangHarian = 20000; UangLembur = 10000; Gapok = 3000000;
+    } else if (Golongan == 2) {
+        UangHarian = 15000; UangLembur = 7500; Gapok = 2500000;
+    } else {
+        UangHarian = 10000; UangLembur = 5000; Gapok = 2000000;
+    }
+
+    // Hitung TotalLembur (TL)
+    if (TotalJamKerja > 192) {
+        TotalLembur = (TotalJamKerja - 192) * UangLembur;
+    }
+
+    // Hitung UangTransport
+    UangTransport = UangHarian * 24;
+
+    // Hitung Total, Pajak, dan Bersih
+    GajiTotal = Gapok + UangTransport + TotalLembur;
+    Pajak = 0.025 * GajiTotal;
+    GajiBersih = GajiTotal - Pajak;
+
+    // Output
+    cout << fixed << setprecision(0);
+    cout << "\n--- Hasil Perhitungan Gaji ---" << endl;
+    cout << "NIK: " << NIK << "\nNama: " << NamaKaryawan << "\nAlamat: " << AlamatKaryawan << endl;
+    cout << "Golongan: " << Golongan << "\nGapok: " << Gapok << endl;
+    cout << "Total Lembur: " << TotalLembur << "\nUang Transport: " << UangTransport << endl;
+    cout << "Gaji Total: " << GajiTotal << "\nPajak (2.5%): " << Pajak << "\nGaji Bersih: " << GajiBersih << endl;
+}
+
+// Fungsi untuk Menghitung Komisi Sales
+void menghitungKomisiSales() {
+    string NamaSales;
+    double JumlahPenjualan, KomisiPenjualan = 0;
+
+    cout << "\n--- Input Data Komisi Sales ---" << endl;
+    cout << "Nama Sales: "; cin.ignore(); getline(cin, NamaSales);
+    cout << "Jumlah Penjualan: "; cin >> JumlahPenjualan;
+
+    if (JumlahPenjualan < 500000) {
+        KomisiPenjualan = 0;
+    } else if (JumlahPenjualan >= 500000 && JumlahPenjualan <= 1000000) {
+        KomisiPenjualan = 0.10 * JumlahPenjualan;
+    } else if (JumlahPenjualan > 1000000 && JumlahPenjualan <= 1500000) {
+        KomisiPenjualan = 0.125 * JumlahPenjualan;
+    } else {
+        KomisiPenjualan = 0.15 * JumlahPenjualan;
+    }
+
+    cout << fixed << setprecision(0);
+    cout << "\n--- Hasil Perhitungan Komisi ---" << endl;
+    cout << "Nama Sales: " << NamaSales << endl;
+    cout << "Jumlah Penjualan: " << JumlahPenjualan << endl;
+    cout << "Komisi Penjualan: " << KomisiPenjualan << endl;
+}
+
+// Menu Utama
+int main() {
+    int pilihan;
+    do {
+        cout << "\n==========================================" << endl;
+        cout << "Silahkan Pilih Sub-Program Yang akan Dijalankan:" << endl;
+        cout << "1. Menghitung Gaji Karyawan" << endl;
+        cout << "2. Menghitung Komisi Sales" << endl;
+        cout << "3. Exit" << endl;
+        cout << "Pilihan Anda (1/2/3): ";
+        cin >> pilihan;
+
+        switch (pilihan) {
+            case 1: menghitungGajiKaryawan(); break;
+            case 2: menghitungKomisiSales(); break;
+            case 3: cout << "Keluar dari program..." << endl; break;
+            default: cout << "Pilihan tidak valid!" << endl;
+        }
+    } while (pilihan != 3);
+
+    return 0;
+}
+
+No. 2
+1. Start
+2. Input: NamaSales, JumlahPenjualan
+3. Decision 1: Apakah JumlahPenjualan < 500.000?
+Ya: KomisiPenjualan = 0
+Tidak: Lanjut ke Decision 2
+
+4. Decision 2: Apakah JumlahPenjualan <= 1.000.000?
+Ya: KomisiPenjualan = JumlahPenjualan * 10%
+Tidak: Lanjut ke Decision 3
+
+5. Decision 3: Apakah JumlahPenjualan <= 1.500.000?
+Ya: KomisiPenjualan = JumlahPenjualan * 12.5%
+Tidak: KomisiPenjualan = JumlahPenjualan * 15%
+
+6. Output: NamaSales, JumlahPenjualan, KomisiPenjualan
+7. End

@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rifqi - Programmer Portfolio</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            softpink: '#ff85c2',
+            babypink: '#ffd6ec'
+          },
+          animation: {
+            float: 'float 3s ease-in-out infinite',
+            fadeIn: 'fadeIn 1.5s ease-in-out forwards',
+            fadeUp: 'fadeUp 1s ease forwards'
+          },
+          keyframes: {
+            float: {
+              '0%, 100%': { transform: 'translateY(0)' },
+              '50%': { transform: 'translateY(-10px)' }
+            },
+            fadeIn: {
+              '0%': { opacity: 0 },
+              '100%': { opacity: 1 }
+            },
+            fadeUp: {
+              '0%': { opacity: 0, transform: 'translateY(40px)' },
+              '100%': { opacity: 1, transform: 'translateY(0)' }
+            }
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    html { scroll-behavior: smooth; }
+    body {
+      background: linear-gradient(135deg, #ffe6f2, #ffc2e2);
+      overflow-x: hidden;
+    }
+    .heart {
+      position: fixed;
+      bottom: -20px;
+      font-size: 20px;
+      animation: rise 5s linear infinite;
+      pointer-events: none;
+    }
+    @keyframes rise {
+      0% { transform: translateY(0) scale(1); opacity: 1; }
+      100% { transform: translateY(-100vh) scale(1.5); opacity: 0; }
+    }
+  </style>
+</head>
+<body class="text-gray-800">
+
+  <!-- HERO SECTION -->
+  <section class="flex flex-col items-center justify-center min-h-screen text-center px-6 animate-fadeIn">
+    <img src="https://via.placeholder.com/180" 
+         alt="Profile" 
+         class="w-44 h-44 rounded-full border-4 border-softpink shadow-2xl animate-float mb-6" />
+
+    <h1 class="text-4xl md:text-5xl font-bold text-softpink mb-3">Rifqi Farras Hasyim</h1>
+
+    <p class="text-lg md:text-xl text-gray-700 max-w-xl">
+      Informatics Student • Web Developer • Technology Enthusiast
+    </p>
+
+    <div class="flex gap-4 mt-8">
+      <a href="#about" class="bg-softpink text-white px-6 py-3 rounded-full shadow-lg hover:scale-110 transition duration-300">
+        About Me
+      </a>
+      <a href="#projects" class="bg-white text-softpink px-6 py-3 rounded-full shadow-lg hover:scale-110 transition duration-300">
+        My Projects
+      </a>
+    </div>
+  </section>
+
+  <!-- ABOUT ME SECTION -->
+  <section id="about" class="py-20 px-6 bg-white/60 backdrop-blur-md">
+    <div class="max-w-4xl mx-auto">
+      <h2 class="text-3xl font-bold text-center text-softpink mb-10">About Me</h2>
+
+      <div class="space-y-6 text-gray-700 leading-relaxed text-lg">
+        <p class="animate-fadeUp">
+          My journey in technology began at SMKN 1 Cirebon, majoring in Software Engineering.
+          This was the starting point where I learned programming logic, system development,
+          and how to build applications from the ground up. The experience shaped my
+          fundamental understanding of software development.
+        </p>
+
+        <p class="animate-fadeUp">
+          During my final year, I completed an internship at PT. Grage Media Technology as a
+          Programmer and Content Creator. I contributed to the development of an HRIS system
+          featuring face recognition attendance using Next.js as the frontend and Node.js as
+          the backend. In addition, I was involved in producing several corporate YouTube
+          contents, which strengthened my creativity and communication skills.
+        </p>
+
+        <p class="animate-fadeUp">
+          For my final school project, I collaborated with a team to develop a school news
+          website using Laravel 11. This project demonstrated my ability to work in a team
+          environment and apply modern web frameworks effectively.
+        </p>
+
+        <p class="animate-fadeUp">
+          Before entering university, I interned at Metland Hotel Cirebon as part of the IT
+          Department. There, I expanded my knowledge beyond programming, including system
+          maintenance, troubleshooting, and IT operations in a professional environment.
+          As a final contribution, I developed a web-based work order system to replace
+          manual handwritten reports, improving efficiency and documentation processes.
+        </p>
+
+        <p class="animate-fadeUp">
+          I also served as the Chief Executive of my school's graduation photo documentation
+          project, where I coordinated teams and managed execution. This experience
+          strengthened my leadership, responsibility, and organizational skills.
+        </p>
+
+        <p class="animate-fadeUp">
+          Currently, I am pursuing a degree in Informatics Engineering and have entered my
+          second semester. I am committed to continuous learning and professional growth
+          in the field of technology.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- MY PROJECT SECTION -->
+  <section id="projects" class="py-20 px-6">
+    <div class="max-w-5xl mx-auto">
+      <h2 class="text-3xl font-bold text-center text-softpink mb-12">My Projects</h2>
+
+      <div class="grid md:grid-cols-2 gap-8">
+
+        <div class="bg-white/70 backdrop-blur-md p-6 rounded-2xl shadow-xl hover:scale-105 transition duration-300 animate-fadeUp">
+          <h3 class="text-xl font-semibold text-softpink mb-3">HRIS Face Recognition System</h3>
+          <p class="text-gray-700 mb-4">
+            HRIS system with face recognition-based attendance feature, built using
+            Next.js and Node.js to deliver a modern and efficient attendance solution.
+          </p>
+          <a href="https://github.com/kulkad/HRIS_REMAKE" target="_blank"
+             class="inline-block bg-softpink text-white px-4 py-2 rounded-full shadow hover:scale-105 transition duration-300">
+            View on GitHub
+          </a>
+        </div>
+
+        <div class="bg-white/70 backdrop-blur-md p-6 rounded-2xl shadow-xl hover:scale-105 transition duration-300 animate-fadeUp">
+          <h3 class="text-xl font-semibold text-softpink mb-3">School News Website</h3>
+          <p class="text-gray-700 mb-4">
+            A dynamic school news portal developed using Laravel 11 as a final school
+            project, focusing on structured content management and usability.
+          </p>
+          <a href="https://github.com/frashsym/Berita-Sekolah" target="_blank"
+             class="inline-block bg-softpink text-white px-4 py-2 rounded-full shadow hover:scale-105 transition duration-300">
+            View on GitHub
+          </a>
+        </div>
+
+        <div class="bg-white/70 backdrop-blur-md p-6 rounded-2xl shadow-xl hover:scale-105 transition duration-300 animate-fadeUp md:col-span-2">
+          <h3 class="text-xl font-semibold text-softpink mb-3">Hotel Work Order System</h3>
+          <p class="text-gray-700 mb-4">
+            A web-based work order management system developed during my internship
+            at Metland Hotel Cirebon to replace manual reporting processes and improve
+            operational efficiency.
+          </p>
+          <a href="https://github.com/frashsym/MHC-WorkOrder" target="_blank"
+             class="inline-block bg-softpink text-white px-4 py-2 rounded-full shadow hover:scale-105 transition duration-300">
+            View on GitHub
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <script>
+    function createHeart() {
+      const heart = document.createElement('div');
+      heart.classList.add('heart');
+      heart.innerText = '💗';
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.animationDuration = (Math.random() * 2 + 3) + 's';
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 5000);
+    }
+    setInterval(createHeart, 600);
+
+    const faders = document.querySelectorAll('.animate-fadeUp');
+    const appearOptions = { threshold: 0.2 };
+
+    const appearOnScroll = new IntersectionObserver(function(entries, observer) {
+      entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.style.animation = 'fadeUp 1s ease forwards';
+        observer.unobserve(entry.target);
+      });
+    }, appearOptions);
+
+    faders.forEach(fader => {
+      fader.style.opacity = 0;
+      appearOnScroll.observe(fader);
+    });
+  </script>
+
+</body>
+</html>
