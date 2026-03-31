@@ -1,68 +1,120 @@
 <!doctype html>
 <html lang="en">
   <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>Bootstrap demo</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB" crossorigin="anonymous">
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-sRIl4kxILFvY47J16cr9ZwB07vP4J8+LH7qKQnuqkuIAvNWLzeN8tE5YBujZqJLB"
+      crossorigin="anonymous"
+    />
   </head>
   <body>
-    <br>
+    <br />
     <div class="container">
-  <!-- Content here -->
-   <div class="container text-left">
-  <div class="row">
-    <div class="col">
-      Column
+      <!-- Content here -->
+      <div class="container text-left">
+        <div class="row">
+          <div class="col">Column</div>
+          <div class="col text-center">
+            <button type="button" class="btn btn-light">Light</button>
+            <button type="button" class="btn btn-light">Light</button>
+            <button type="button" class="btn btn-light">Light</button>
+            <button type="button" class="btn btn-light">Light</button>
+          </div>
+          <div class="col" style="text-align: right">Column</div>
+        </div>
+      </div>
     </div>
-    <div class="col text-center">
-     
-      <button type="button" class="btn btn-light">Light</button>
-      <button type="button" class="btn btn-light">Light</button>
-      <button type="button" class="btn btn-light">Light</button>
-      <button type="button" class="btn btn-light">Light</button>
+    <br />
 
+    <div style="position: relative; display: inline-block">
+      <img
+        src="https://d2kchovjbwl1tk.cloudfront.net/vendors/9549/assets/image/1769364973158-NAN00069_resized2048-JPEG.webp"
+        alt="image"
+        style="width: 100%"
+      />
+      <button
+        style="
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          transform: translate(-50%, -50%);
+        "
+      >
+        Click
+      </button>
     </div>
-    <div class="col" style="text-align: right;">
-      Column
-    </div>
-  </div>
-</div>
-</div>
-<br>
-
-<div style="position: relative; display: inline-block;">
-  <img src="https://d2kchovjbwl1tk.cloudfront.net/vendors/9549/assets/image/1769364973158-NAN00069_resized2048-JPEG.webp" alt="image" style="width: 100%;">
-  <button style="
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-  ">Click</button>
-</div>
-<br>
-<div class="text-center" style="position: relative; display: block; width: 100%; background-color: black; color: white;">
-  <!-- Content here -->
-   Payment Method
-   <br>
-      <svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M1.88923 15.8208C1.845 15.8561 1.73 15.98 1.65038 16.1038C1.51769 16.2985 1.5 16.6258 1.5 18.9081V21.5H1.89808H2.28731L2.31385 19.2088C2.34039 17.1123 2.35808 16.9 2.50846 16.7319C2.66769 16.555 2.77385 16.5462 4.98539 16.5285L7.29423 16.5019L7.32077 16.1215L7.34731 15.75H4.66693C3.18962 15.75 1.94231 15.7854 1.88923 15.8208Z" fill="currentcolor"></path>
-      <path d="M3.84437 18.5982C3.44629 18.8282 3.45514 18.7132 3.44629 24.3039C3.44629 27.232 3.47283 29.6913 3.49937 29.7709C3.64975 30.1424 3.8886 30.1689 7.38283 30.1689H10.7001V28.7093V27.2497H8.57706H6.45398V22.8709V18.492H5.24206C4.49014 18.492 3.95052 18.5362 3.84437 18.5982Z" fill="currentcolor"></path>
-      <path d="M7.69238 19.9872V21.4999H9.85969H12.027V23.6672V25.8345H13.5308H15.0347V22.4375V19.0318L14.8224 18.7841L14.6101 18.5364L11.1512 18.501L7.69238 18.4745V19.9872Z" fill="currentcolor"></path>
-      <path d="M16.0967 19.9074V21.3228H20.2986H24.5005V22.1189V22.9151H20.2986H16.0967V26.542V30.1689H17.5121H18.9275V27.9928V25.8255L19.1486 25.9936C19.2636 26.0909 20.1305 26.9047 21.0682 27.7982C22.0059 28.6916 22.9525 29.5939 23.1736 29.7974L23.5628 30.1689H25.624C26.7563 30.1689 27.6852 30.1336 27.6852 30.0893C27.6852 30.0539 27.2428 29.6028 26.6944 29.0986C26.1548 28.5943 25.3851 27.8778 24.9959 27.5151C24.5978 27.1524 24.0051 26.5863 23.6601 26.2589L23.0409 25.6574H25.3675H27.6852V22.0747V18.492H21.8909H16.0967V19.9074Z" fill="currentcolor"></path>
-      <path d="M28.835 24.3305V30.1689H30.2503H31.6657V24.3305V18.492H30.2503H28.835V24.3305Z" fill="currentcolor"></path>
-      <path d="M32.8154 22.119V25.7459H36.6193H40.4231V26.4536V27.1613H36.6193H32.8154V28.6209V30.0806H38.5212H44.227V26.4536V22.8267H40.4674H36.7077V22.1633V21.4998H40.4674H44.227V19.9959V18.4921H38.5212H32.8154V22.119Z" fill="currentcolor"></path>
-      <path d="M7.69238 24.3306V25.8345H9.19623H10.7001V24.3306V22.8268H9.19623H7.69238V24.3306ZM9.727 24.3306V24.8614H9.19623H8.66546V24.3306V23.7999H9.19623H9.727V24.3306Z" fill="currentcolor"></path>
-      <path d="M12.0273 30.0808V33H13.5312H15.035V30.0808V27.1615H13.5312H12.0273V30.0808Z" fill="currentcolor"></path>
-      <path d="M45.3767 29.4174V31.682L45.1555 31.8943L44.9432 32.1155H42.6786H40.4229V32.5135V32.9116H43.0767H45.7394L45.9517 32.6905L46.1729 32.4782V29.8155V27.1616H45.7748H45.3767V29.4174Z" fill="currentcolor"></path>
+    <br />
+    <div
+      class="text-center"
+      style="
+        position: relative;
+        display: block;
+        width: 100%;
+        background-color: black;
+        color: white;
+      "
+    >
+      <!-- Content here -->
+      Payment Method
+      <br />
+      <svg
+        width="48"
+        height="48"
+        viewBox="0 0 48 48"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M1.88923 15.8208C1.845 15.8561 1.73 15.98 1.65038 16.1038C1.51769 16.2985 1.5 16.6258 1.5 18.9081V21.5H1.89808H2.28731L2.31385 19.2088C2.34039 17.1123 2.35808 16.9 2.50846 16.7319C2.66769 16.555 2.77385 16.5462 4.98539 16.5285L7.29423 16.5019L7.32077 16.1215L7.34731 15.75H4.66693C3.18962 15.75 1.94231 15.7854 1.88923 15.8208Z"
+          fill="currentcolor"
+        ></path>
+        <path
+          d="M3.84437 18.5982C3.44629 18.8282 3.45514 18.7132 3.44629 24.3039C3.44629 27.232 3.47283 29.6913 3.49937 29.7709C3.64975 30.1424 3.8886 30.1689 7.38283 30.1689H10.7001V28.7093V27.2497H8.57706H6.45398V22.8709V18.492H5.24206C4.49014 18.492 3.95052 18.5362 3.84437 18.5982Z"
+          fill="currentcolor"
+        ></path>
+        <path
+          d="M7.69238 19.9872V21.4999H9.85969H12.027V23.6672V25.8345H13.5308H15.0347V22.4375V19.0318L14.8224 18.7841L14.6101 18.5364L11.1512 18.501L7.69238 18.4745V19.9872Z"
+          fill="currentcolor"
+        ></path>
+        <path
+          d="M16.0967 19.9074V21.3228H20.2986H24.5005V22.1189V22.9151H20.2986H16.0967V26.542V30.1689H17.5121H18.9275V27.9928V25.8255L19.1486 25.9936C19.2636 26.0909 20.1305 26.9047 21.0682 27.7982C22.0059 28.6916 22.9525 29.5939 23.1736 29.7974L23.5628 30.1689H25.624C26.7563 30.1689 27.6852 30.1336 27.6852 30.0893C27.6852 30.0539 27.2428 29.6028 26.6944 29.0986C26.1548 28.5943 25.3851 27.8778 24.9959 27.5151C24.5978 27.1524 24.0051 26.5863 23.6601 26.2589L23.0409 25.6574H25.3675H27.6852V22.0747V18.492H21.8909H16.0967V19.9074Z"
+          fill="currentcolor"
+        ></path>
+        <path
+          d="M28.835 24.3305V30.1689H30.2503H31.6657V24.3305V18.492H30.2503H28.835V24.3305Z"
+          fill="currentcolor"
+        ></path>
+        <path
+          d="M32.8154 22.119V25.7459H36.6193H40.4231V26.4536V27.1613H36.6193H32.8154V28.6209V30.0806H38.5212H44.227V26.4536V22.8267H40.4674H36.7077V22.1633V21.4998H40.4674H44.227V19.9959V18.4921H38.5212H32.8154V22.119Z"
+          fill="currentcolor"
+        ></path>
+        <path
+          d="M7.69238 24.3306V25.8345H9.19623H10.7001V24.3306V22.8268H9.19623H7.69238V24.3306ZM9.727 24.3306V24.8614H9.19623H8.66546V24.3306V23.7999H9.19623H9.727V24.3306Z"
+          fill="currentcolor"
+        ></path>
+        <path
+          d="M12.0273 30.0808V33H13.5312H15.035V30.0808V27.1615H13.5312H12.0273V30.0808Z"
+          fill="currentcolor"
+        ></path>
+        <path
+          d="M45.3767 29.4174V31.682L45.1555 31.8943L44.9432 32.1155H42.6786H40.4229V32.5135V32.9116H43.0767H45.7394L45.9517 32.6905L46.1729 32.4782V29.8155V27.1616H45.7748H45.3767V29.4174Z"
+          fill="currentcolor"
+        ></path>
       </svg>
 
-<br><br>
-  <!-- Content here -->
-   Shipment Method
+      <br /><br />
+      <!-- Content here -->
+      Shipment Method
+    </div>
 
-</div>
-
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js" integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI" crossorigin="anonymous"></script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-FKyoEForCGlyvwx9Hj09JcYn3nv7wiPVlz7YYwJrWVcXK/BmnVDxM+D2scQbITxI"
+      crossorigin="anonymous"
+    ></script>
   </body>
 </html>

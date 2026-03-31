@@ -1,23 +1,31 @@
-/* LOAD NAVBAR */
+document.addEventListener("DOMContentLoaded", function () {
+  console.log("JS jalan bro ✅");
 
-fetch("navbar.html")
-  .then((res) => res.text())
-  .then((data) => {
-    document.getElementById("navbar").innerHTML = data;
+  /* LOAD NAVBAR */
+  fetch("navbar.html")
+    .then((res) => {
+      if (!res.ok) throw new Error("Navbar tidak ditemukan");
+      return res.text();
+    })
+    .then((data) => {
+      document.getElementById("navbar").innerHTML = data;
+      initNavbar();
+    })
+    .catch((err) => console.error("Error navbar:", err));
 
-    initNavbar();
-  });
-
-/* LOAD FOOTER */
-
-fetch("footer.html")
-  .then((res) => res.text())
-  .then((data) => {
-    document.getElementById("footer").innerHTML = data;
-  });
+  /* LOAD FOOTER */
+  fetch("footer.html")
+    .then((res) => {
+      if (!res.ok) throw new Error("Footer tidak ditemukan");
+      return res.text();
+    })
+    .then((data) => {
+      document.getElementById("footer").innerHTML = data;
+    })
+    .catch((err) => console.error("Error footer:", err));
+});
 
 /* NAVBAR INTERACTION */
-
 function initNavbar() {
   const idrBtn = document.getElementById("idrBtn");
   const cartBtn = document.getElementById("cartBtn");
@@ -27,17 +35,14 @@ function initNavbar() {
   const cartCard = document.getElementById("cartCard");
   const userCard = document.getElementById("userCard");
 
-  idrBtn.onclick = () => {
-    toggle(idrCard);
-  };
+  if (!idrBtn || !cartBtn || !userBtn) {
+    console.warn("Element navbar belum kebaca semua");
+    return;
+  }
 
-  cartBtn.onclick = () => {
-    toggle(cartCard);
-  };
-
-  userBtn.onclick = () => {
-    toggle(userCard);
-  };
+  idrBtn.onclick = () => toggle(idrCard);
+  cartBtn.onclick = () => toggle(cartCard);
+  userBtn.onclick = () => toggle(userCard);
 
   function toggle(card) {
     const cards = document.querySelectorAll(".dropdown");

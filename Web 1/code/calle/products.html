@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Products - CALLE</title>
+
+    <link rel="stylesheet" href="style.css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <!-- NAVBAR -->
+    <div id="navbar"></div>
+
+    <!-- PRODUCTS -->
+    <section class="container-fluid mt-5 pt-5">
+      <div class="row">
+
+        <!-- SIDEBAR FILTER -->
+        <div class="col-md-3 p-4 border-end">
+          <h5>Product Type</h5>
+          <div><input type="radio" name="type" checked> All Products</div>
+          <div><input type="radio" name="type"> Featured</div>
+
+          <h5 class="mt-4">Availability</h5>
+          <div><input type="radio" name="stock" checked> All</div>
+          <div><input type="radio" name="stock"> In Stock</div>
+
+          <h5 class="mt-4">Price</h5>
+          <div><input type="radio" name="price"> Under Rp 620K</div>
+          <div><input type="radio" name="price"> Rp 620K - 1.2JT</div>
+
+          <h5 class="mt-4">Size</h5>
+          <div class="d-flex gap-2 flex-wrap">
+            <button class="btn btn-outline-dark btn-sm">S</button>
+            <button class="btn btn-outline-dark btn-sm">M</button>
+            <button class="btn btn-outline-dark btn-sm">L</button>
+            <button class="btn btn-outline-dark btn-sm">XL</button>
+          </div>
+        </div>
+
+       <!-- PRODUCTS -->
+    <div class="col-md-9">
+
+      <div class="d-flex justify-content-between mb-4">
+        <h5>All Products</h5>
+        <select class="form-select w-auto">
+          <option>Sort: Featured</option>
+          <option>Price Low</option>
+          <option>Price High</option>
+        </select>
+      </div>
+
+      <div class="row">
+
+        <!-- PRODUCT 1 -->
+        <div class="col-md-4 mb-4">
+          <div class="card product-card position-relative">
+            <span class="badge bg-secondary badge-custom">LOW STOCK</span>
+            <img src="produk1.png" class="card-img-top">
+            <div class="card-body">
+              <p>ARABIC RINGS</p>
+              <strong>Rp 299.000</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- PRODUCT 2 -->
+        <div class="col-md-4 mb-4">
+          <div class="card product-card position-relative">
+            <span class="badge bg-dark badge-custom">SOLD OUT</span>
+            <img src="produk2.png" class="card-img-top">
+            <div class="card-body">
+              <p>WASHED ZIP HOODIE</p>
+              <strong>Rp 679.000</strong>
+            </div>
+          </div>
+        </div>
+
+        <!-- PRODUCT 3 -->
+        <div class="col-md-4 mb-4">
+          <div class="card product-card position-relative">
+            <span class="badge bg-dark badge-custom">SOLD OUT</span>
+            <img src="produk3.png" class="card-img-top">
+            <div class="card-body">
+              <p>ARABIC STAR ZIP HOODIE</p>
+              <strong>Rp 649.000</strong>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <div id="footer"></div>
+
+    <script src="main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+  </body>
+</html>
