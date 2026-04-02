@@ -1,84 +1,89 @@
-"""Program pemesanan tiket kereta sederhana."""
-
-# jumlah pesanan yang akan dibuat
-try:
-    jumlah_pesanan = int(input("Masukkan Jumlah Pesanan Tiket: "))
-except ValueError:
-    print("Input harus berupa angka. Program dihentikan.")
-    exit()
-
-# inisialisasi daftar
+# membuat variabel
 nama_pemesan = []
 kode_kereta = []
-kode_kelas = []
 nama_kereta = []
+kode_kelas = []
 nama_kelas = []
 harga = []
 
+# Pengkondisian dan Perulangan
+jumlah_pesanan = int(input("Masukkan Jumlah Pesanan Tiket:"))
 for i in range(jumlah_pesanan):
-    print(f"\nPesanan ke-{i+1}")
-    nama = input("Masukkan Nama Pemesan: ").strip()
-    nama_pemesan.append(nama)
-
-    k_kereta = input("Masukkan Kode Kereta |CKR|MNR|: ").strip().upper()
-    kode_kereta.append(k_kereta)
-
-    k_kelas = input("Masukkan Kode Kelas |E|B|P|: ").strip().upper()
-    kode_kelas.append(k_kelas)
-
-    # tentukan nama kereta berdasarkan kode
-    if k_kereta == "CKR":
+    print("Pesanan ke:", i+1)
+    nama_pemesan.append(input("Masukkan Nama Pemesan:"))
+    kode_kereta.append(input("Masukkan Kode Kereta |CKR|MNR|:"))
+    kode_kelas.append(input("Masukkan Kode Kelas |E|B|P|:"))
+    
+    if kode_kereta[i] == "CKR" or kode_kereta[i] == "ckr":
         nama_kereta.append("Cakrabuana")
-    elif k_kereta == "MNR":
+        if kode_kelas[i] == "E" or kode_kelas[i] == "e":
+            nama_kelas.append("Ekonomi")
+            harga.append(int(45000))
+        elif kode_kelas[i] == "B" or kode_kelas[i] == "b":
+            nama_kelas.append("Bisnis")
+            harga.append(int(80000))
+        elif kode_kelas[i] == "P" or kode_kelas[i] == "p":
+            nama_kelas.append("Premium")
+            harga.append(int(100000))
+        else:
+            nama_kelas.append("Kosong")
+            harga.append(int(0))
+    elif kode_kereta[i] == "MNR" or kode_kereta[i] == "mnr":
         nama_kereta.append("Menoreh")
+        if kode_kelas[i] == "E" or kode_kelas[i] == "e":
+            nama_kelas.append("Ekonomi")
+            harga.append(int(180000))
+        elif kode_kelas[i] == "B" or kode_kelas[i] == "b":
+            nama_kelas.append("Bisnis")
+            harga.append(int(220000))
+        elif kode_kelas[i] == "P" or kode_kelas[i] == "p":
+            nama_kelas.append("Premium")
+            harga.append(int(360000))
+        else:
+            nama_kelas.append("Kosong")
+            harga.append(int(0))
     else:
-        nama_kereta.append("Tidak Diketahui")
+        nama_kereta.append("Tidak ada")
+        if kode_kelas[i] == "E" or kode_kelas[i] == "e":
+            nama_kelas.append("Ekonomi")
+            harga.append(int(0))
+        elif kode_kelas[i] == "B" or kode_kelas[i] == "b":
+            nama_kelas.append("Bisnis")
+            harga.append(int(0))
+        elif kode_kelas[i] == "P" or kode_kelas[i] == "p":
+            nama_kelas.append("Premium")
+            harga.append(int(0))
+        else:
+            nama_kelas.append("Kosong")
+            harga.append(int(0))
 
-    # tentukan kelas dan harga berdasarkan kereta dan kode kelas
-    if k_kereta == "CKR":
-        if k_kelas == "E":
-            nama_kelas.append("Ekonomi")
-            harga.append(45000)
-        elif k_kelas == "B":
-            nama_kelas.append("Bisnis")
-            harga.append(80000)
-        elif k_kelas == "P":
-            nama_kelas.append("Premium")
-            harga.append(100000)
-        else:
-            nama_kelas.append("Tidak Diketahui")
-            harga.append(0)
-    elif k_kereta == "MNR":
-        if k_kelas == "E":
-            nama_kelas.append("Ekonomi")
-            harga.append(180000)
-        elif k_kelas == "B":
-            nama_kelas.append("Bisnis")
-            harga.append(250000)  # asumsi harga
-        elif k_kelas == "P":
-            nama_kelas.append("Premium")
-            harga.append(300000)  # asumsi harga
-        else:
-            nama_kelas.append("Tidak Diketahui")
-            harga.append(0)
-    else:
-        # kereta tidak dikenali, beri harga 0
-        if k_kelas == "E":
-            nama_kelas.append("Ekonomi")
-        elif k_kelas == "B":
-            nama_kelas.append("Bisnis")
-        elif k_kelas == "P":
-            nama_kelas.append("Premium")
-        else:
-            nama_kelas.append("Tidak Diketahui")
-        harga.append(0)
+# perhitungan
+total=sum(harga)
+if total>200000:
+    diskon=10/100*total
+else:
+    diskon=0
+bayar=total-diskon
 
-# tampilkan ringkasan pemesanan
-print("\n=== RINGKASAN PESANAN ===")
-total = 0
-for idx in range(jumlah_pesanan):
-    print(
-        f"Pesanan {idx+1}: {nama_pemesan[idx]} - {nama_kereta[idx]} ({nama_kelas[idx]}) - Harga: Rp{harga[idx]}"
-    )
-    total += harga[idx]
-print(f"\nTotal Bayar: Rp{total}")
+# Output / Keluaran
+import pandas as pd
+data = {
+    'Nama': nama_pemesan,
+    'Kereta': nama_kereta,
+    'Kelas': nama_kelas,
+    'Harga': harga
+}
+
+rekap_data = pd.DataFrame(data)
+print("="*50)
+print("PROGRAM PEMESANAN TIKET KERETA")
+print("="*50)
+print(rekap_data)
+print("="*50)
+print("Total Pesanan\t=", total)
+print("Diskon\t\t=", diskon)
+print("Total Bayar\t=", bayar)
+uang_bayar = int(input("Masukkan Uang Bayar\t="))
+kembalian = uang_bayar - bayar
+print("Kembalian\t=", kembalian)
+print("="*50)
