@@ -47,12 +47,12 @@ def buku():
     for i in range(len(daftar_buku)):
         print(f"{i+1}. {daftar_buku[i]}")
 
-    daftar_buku.append("Harry Potter")
-    daftar_buku.append("The Lord of the Rings")
+    # daftar_buku.append("Harry Potter")
+    # daftar_buku.append("The Lord of the Rings")
 
-    print("\nSetelah tambah buku:")
-    for i in range(len(daftar_buku)):
-        print(f"{i+1}. {daftar_buku[i]}")
+    # print("\nSetelah tambah buku:")
+    # for i in range(len(daftar_buku)):
+    #     print(f"{i+1}. {daftar_buku[i]}")
 
 buku()
 
