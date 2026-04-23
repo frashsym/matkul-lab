@@ -25,13 +25,18 @@ def tampilkan_data():
 # ==============================
 def tambah_data():
     print("\n=== TAMBAH DATA ===")
-    id = int(input("Masukkan ID: "))
+    # ID diisi secara otomatis sebagai nomor urut berikutnya
+    if produk:
+        id_baru = max(p[0] for p in produk) + 1
+    else:
+        id_baru = 1
+    print(f"ID: {id_baru}")
     nama = input("Masukkan Nama: ")
     harga = int(input("Masukkan Harga: "))
     stok = int(input("Masukkan Stok: "))
     kategori = input("Masukkan Kategori: ")
 
-    produk.append([id, nama, harga, stok, kategori])
+    produk.append([id_baru, nama, harga, stok, kategori])
     print("Data berhasil ditambahkan!")
 
 # ==============================
@@ -44,10 +49,28 @@ def ubah_data():
     for p in produk:
         if p[0] == id:
             print("Data ditemukan!")
-            p[1] = input("Nama baru: ")
-            p[2] = int(input("Harga baru: "))
-            p[3] = int(input("Stok baru: "))
-            p[4] = input("Kategori baru: ")
+            nama_baru = input("Nama baru: ")
+            if nama_baru.strip():
+                p[1] = nama_baru
+            
+            harga_baru = input("Harga baru: ")
+            if harga_baru.strip():
+                try:
+                    p[2] = int(harga_baru)
+                except ValueError:
+                    print("Harga harus berupa angka!")
+            
+            stok_baru = input("Stok baru: ")
+            if stok_baru.strip():
+                try:
+                    p[3] = int(stok_baru)
+                except ValueError:
+                    print("Stok harus berupa angka!")
+            
+            kategori_baru = input("Kategori baru: ")
+            if kategori_baru.strip():
+                p[4] = kategori_baru
+            
             print("Data berhasil diubah!")
             return
 
